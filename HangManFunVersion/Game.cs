@@ -2,9 +2,15 @@
 {
     public class Game
     {
+        private User user;
         public string? SecretWord { get; private set; }
         public char[]? CorrectLetters { get; private set; }
         public bool IsGuessFound { get; private set; }
+
+        public Game()
+        {
+            user = new User();
+        }
 
         public void MakeSecretWord()
         {
@@ -17,16 +23,15 @@
             }
             catch (FileNotFoundException)
             {
-                wordsToGuess = [ "ocean", "mountain", "laptop", "sunshine", "bicycle", "elephant", "pizza", "strawberry",
-                                "jungle", "library", "universe", "airplane", "football", "butterfly", "spaceship" ];
+                wordsToGuess = new string[] { "ocean", "mountain", "laptop", "sunshine", "bicycle", "elephant", "pizza", "strawberry",
+                                              "jungle", "library", "universe", "airplane", "football", "butterfly", "spaceship" };
             }
             SecretWord = wordsToGuess[Random.Shared.Next(wordsToGuess.Length)];
             CorrectLetters = new char[SecretWord.Length];
-
             Array.Fill(CorrectLetters, '_');
         }
 
-        public void PlaySinglePlayerRound(User user)
+        public void PlaySinglePlayerRound()
         {
             MakeSecretWord();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -56,31 +61,24 @@
                     continue;
                 }
 
-
-
                 char userGuess = input[0];
                 IsGuessFound = false;
-                CheckGuess(userGuess, user);
-                CheckForWin(user);
+                CheckGuess(userGuess);
+                CheckForWin();
                 if (user.WrongAnswers == 8)
                     break;
 
             } while (!user.HasGuessedTheCorrectWord);
 
-            PlayAgain(user);
-
+            PlayAgain();
         }
 
         public void PlayTwoPlayerRound()
         {
-
+            throw new NotImplementedException();
         }
 
-
-
-
-
-        private void PlayAgain(User user)
+        private void PlayAgain()
         {
             Console.Write("Do you want to play again? (y/n): ");
 
@@ -90,19 +88,17 @@
                 user.ResetWrongAnswers();
                 user.ResetGuessedLetters();
                 user.ResetHasGuessedTheCorrectWord();
-                PlaySinglePlayerRound(user);
-
+                PlaySinglePlayerRound();
             }
             else
             {
                 Console.WriteLine($"Thank you for playing, {user.UserName}!");
-                Console.WriteLine($"You'r total score was '{user.Score}' See ya around!");
+                Console.WriteLine($"Your total score was '{user.Score}' See ya around!");
             }
         }
 
-        public void CheckGuess(char guess, User user)
+        public void CheckGuess(char guess)
         {
-
             if (user.GuessedLetters.Contains(guess))
             {
                 Console.Clear();
@@ -115,7 +111,6 @@
                 return;
             }
 
-
             for (int i = 0; i < SecretWord!.Length; i++)
             {
                 if (guess == SecretWord[i])
@@ -127,7 +122,7 @@
 
             if (!IsGuessFound)
             {
-                user.WrongAnswers++;
+                user.IncrementWrongAnswers();
                 user.AddGuessedLetter(guess);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -136,7 +131,6 @@
                 Console.WriteLine($"{(user.WrongAnswers == 8 ? "" : $"{char.ToUpper(guess)} is not correct! Please try again...")}");
                 Console.ForegroundColor = ConsoleColor.White;
                 Thread.Sleep(1000);
-
             }
             else
             {
@@ -144,12 +138,12 @@
                 Console.ForegroundColor = ConsoleColor.Green;
                 if (user.WrongAnswers > 0)
                     Console.WriteLine(Display.BuildHangMan(user.WrongAnswers));
-                Console.WriteLine($"{Char.ToUpper(guess)} was right! Please continue guess...");
+                Console.WriteLine($"{Char.ToUpper(guess)} was right! Please continue guessing...");
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
-        public void CheckForWin(User user)
+        public void CheckForWin()
         {
             if (!CorrectLetters!.Contains('_'))
             {
@@ -158,19 +152,18 @@
                 Console.WriteLine(Display.BuildHangMan(9));
                 Console.WriteLine(String.Join(" ", CorrectLetters!));
                 Console.ForegroundColor = ConsoleColor.White;
-                user.HasGuessedTheCorrectWord = true;
+                user.UpdateHasGuessedTheCorrectWord();
                 user.IncreaseScore();
             }
         }
 
-
-        public User CreateNewUser()
+        public void CreateNewUser()
         {
             string input;
             const int minUserNameLength = 2;
             Display.DisplayLogo();
-            User user = new User();
-            while (true)
+
+            do
             {
                 Console.Write("Please enter your username: ");
                 input = Console.ReadLine()!.Trim();
@@ -181,16 +174,13 @@
                     Display.DisplayLogo();
                     Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
                     Thread.Sleep(1000);
-                    continue;
                 }
-                Console.Clear();
-                user.UserName = input;
-                break;
-            }
-
-            return user;
+                else
+                {
+                    Console.Clear();
+                    user.UserName = input;
+                }
+            } while (string.IsNullOrEmpty(input) || input.Length < minUserNameLength);
         }
-
-
     }
 }

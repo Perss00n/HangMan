@@ -10,12 +10,12 @@
             set { _userName = value; }
         }
 
-        public List<char> GuessedLetters { get; private set; } = new List<char>();
-        public int WrongAnswers { get; set; } = 0;
+        public List<char> GuessedLetters { get; } = new List<char>();
+        public int WrongAnswers { get; private set; }
 
-        public int Score { get; private set; } = 0;
+        public int Score { get; private set; }
 
-        public bool HasGuessedTheCorrectWord { get; set; }
+        public bool HasGuessedTheCorrectWord { get; private set; }
 
         public void AddGuessedLetter(char letter)
         {
@@ -40,6 +40,16 @@
         public void ResetHasGuessedTheCorrectWord()
         {
             HasGuessedTheCorrectWord = false;
+        }
+
+        public void UpdateHasGuessedTheCorrectWord()
+        {
+            HasGuessedTheCorrectWord = true;
+        }
+
+        public void IncrementWrongAnswers()
+        {
+            WrongAnswers++;
         }
 
     }

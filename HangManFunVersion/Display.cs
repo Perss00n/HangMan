@@ -1,14 +1,11 @@
-﻿using System.Runtime.Intrinsics.X86;
-
-namespace HangManFunVersion;
+﻿namespace HangManFunVersion;
 public class Display
 {
     public void ShowMenu()
     {
         DisplayLogo();
 
-        bool isValidOption = false;
-        do
+        while (true)
         {
             Console.Clear();
             DisplayLogo();
@@ -23,48 +20,32 @@ public class Display
                 switch (input)
                 {
                     case 1:
-                        isValidOption = true;
                         Console.Clear();
                         StartSinglePlayerGame();
-                        break;
+                        return;
                     case 2:
-                        isValidOption = true;
                         Console.Clear();
-                        StartTwoPlayerGame();
-                        //Console.WriteLine("Not yet implemented!");
+                        Console.WriteLine("Not yet implemented!");
                         break;
                     case 3:
-                        isValidOption = true;
                         Console.WriteLine("Exiting the game...");
-                        break;
+                        return;
                     default:
-                        Console.WriteLine("Please enter a valid integer from 1-3. Try again...");
-                        Console.ReadLine();
                         break;
                 }
             }
-            else
-            {
-                Console.WriteLine("Please enter a valid integer from 1-3. Try again...");
-                Console.ReadLine();
-            }
 
-        } while (!isValidOption);
+            DisplayLogo();
+            Console.WriteLine("Please enter a valid integer from 1-3. Try again...");
+            Thread.Sleep(1500);
+        }
     }
 
     public void StartSinglePlayerGame()
     {
         Game game = new Game();
-        User user = game.CreateNewUser();
-        game.PlaySinglePlayerRound(user);
-    }
-
-    public void StartTwoPlayerGame()
-    {
-        Game game = new Game();
-        User user1 = game.CreateNewUser();
-        User user2 = game.CreateNewUser();
-        //Game.PlayTwoPlayerRound();
+        game.CreateNewUser();
+        game.PlaySinglePlayerRound();
     }
 
 
