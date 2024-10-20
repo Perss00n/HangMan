@@ -45,7 +45,7 @@ public class Display
     {
         Game game = new Game();
         game.CreateNewUser();
-        game.PlayRoundSinglePlayer();
+        game.PlaySinglePlayerRound();
     }
 
     public void StartTwoPlayerGame()

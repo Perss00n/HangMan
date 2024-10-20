@@ -26,7 +26,7 @@
             Array.Fill(CorrectLetters, '_');
         }
 
-        public void PlayRoundSinglePlayer()
+        public void PlaySinglePlayerRound()
         {
             MakeSecretWord();
 
@@ -80,7 +80,7 @@
             {
                 Console.Clear();
                 user!.ResetRound();
-                PlayRoundSinglePlayer();
+                PlaySinglePlayerRound();
                 return true;
             }
             else
@@ -246,7 +246,7 @@
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to guess {player1.UserName}'s word.");
-                PlayRoundTwoPlayer(player2, secretWordP1);
+                PlayTwoPlayerRound(player2, secretWordP1);
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to set the secret word for {player1.UserName}.");
@@ -255,7 +255,7 @@
 
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to guess {player2.UserName}'s word.");
-                PlayRoundTwoPlayer(player1, secretWordP2);
+                PlayTwoPlayerRound(player1, secretWordP2);
 
                 player1.ResetRound();
                 player2.ResetRound();
@@ -271,7 +271,7 @@
                               "The game is a draw!");
         }
 
-        public void PlayRoundTwoPlayer(User guesser, string secretWord)
+        public void PlayTwoPlayerRound(User guesser, string secretWord)
         {
             Console.Clear();
             SecretWord = secretWord;
