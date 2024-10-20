@@ -1,18 +1,11 @@
-﻿using System.Text;
-
-namespace HangManFunVersion
+﻿namespace HangManFunVersion
 {
     public class Game
     {
-        private User user;
+        private User? user;
         public string? SecretWord { get; private set; }
         public char[]? CorrectLetters { get; private set; }
         public bool IsGuessFound { get; private set; }
-
-        public Game()
-        {
-            user = new User();
-        }
 
         public void MakeSecretWord()
         {
@@ -39,7 +32,7 @@ namespace HangManFunVersion
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("---------------------------------------------------");
-            Console.WriteLine($"Welcome, {user.UserName}!\nYou have 8 chances to guess the letters and save the man from his grim fate.\n" +
+            Console.WriteLine($"Welcome, {user!.UserName}!\nYou have 8 chances to guess the letters and save the man from his grim fate.\n" +
                               $"Each incorrect guess brings him closer to doom. Choose wisely!");
             Console.WriteLine("---------------------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
@@ -52,7 +45,7 @@ namespace HangManFunVersion
                     Console.WriteLine($"Guessed Letters: {String.Join(", ", user.GuessedLetters)}");
 
                 Console.Write("Enter your guess: ");
-                string input = Console.ReadLine()?.Trim().ToLower() ?? "";
+                string input = Console.ReadLine()!.Trim().ToLower();
 
                 if (input.Length > 1 || String.IsNullOrEmpty(input) || !char.IsLetter(input[0]))
                 {
@@ -86,13 +79,13 @@ namespace HangManFunVersion
             if (Console.ReadLine()?.Trim().ToLower() == "y")
             {
                 Console.Clear();
-                user.ResetRound();
+                user!.ResetRound();
                 PlayRoundSinglePlayer();
                 return true;
             }
             else
             {
-                Console.WriteLine($"Thank you for playing, {user.UserName}!");
+                Console.WriteLine($"Thank you for playing, {user!.UserName}!");
                 Console.WriteLine($"Your total score was '{user.Score}' See ya around!");
                 return false;
             }
@@ -172,14 +165,17 @@ namespace HangManFunVersion
         {
             string input;
             const int minUserNameLength = 2;
+            bool isInvalidInput;
+            user = new User();
             Display.DisplayLogo();
 
             do
             {
                 Console.Write("Please enter your username: ");
-                input = Console.ReadLine()?.Trim() ?? "";
+                input = Console.ReadLine()!.Trim();
+                isInvalidInput = string.IsNullOrEmpty(input) || input.Length < minUserNameLength;
 
-                if (string.IsNullOrEmpty(input) || input.Length < minUserNameLength)
+                if (isInvalidInput)
                 {
                     Console.Clear();
                     Display.DisplayLogo();
@@ -191,7 +187,7 @@ namespace HangManFunVersion
                     Console.Clear();
                     user.UserName = input;
                 }
-            } while (string.IsNullOrEmpty(input) || input.Length < minUserNameLength);
+            } while (isInvalidInput);
         }
 
         public void StartTwoPlayerRound()
@@ -203,11 +199,42 @@ namespace HangManFunVersion
             Display.DisplayLogo();
             Console.WriteLine("Welcome to the two player mode!\n");
 
-            Console.Write("Player 1, please enter your username: ");
-            player1.UserName = Console.ReadLine()?.Trim() ?? "Player1";
+            string input;
+            bool isInvalidInputUser1;
+            bool isInvalidInputUser2;
+            const int minUserNameLength = 2;
+            do
+            {
+                Console.Write("Player 1, please enter your username: ");
+                input = Console.ReadLine()!.Trim();
+                isInvalidInputUser1 = string.IsNullOrEmpty(input) || input.Length < minUserNameLength;
+                if (isInvalidInputUser1)
+                {
+                    Console.Clear();
+                    Display.DisplayLogo();
+                    Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
+                    Thread.Sleep(1000);
+                }
+            } while (isInvalidInputUser1);
 
-            Console.Write("Player 2, please enter your username: ");
-            player2.UserName = Console.ReadLine()?.Trim() ?? "Player2";
+            player1.UserName = input;
+
+            string input2;
+            do
+            {
+                Console.Write("Player 2, please enter your username: ");
+                input2 = Console.ReadLine()!.Trim();
+                isInvalidInputUser2 = string.IsNullOrEmpty(input2) || input2.Length < minUserNameLength;
+                if (isInvalidInputUser2)
+                {
+                    Console.Clear();
+                    Display.DisplayLogo();
+                    Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
+                    Thread.Sleep(1000);
+                }
+            } while (isInvalidInputUser2);
+
+            player2.UserName = input2;
 
             bool playAgain;
             do
@@ -215,7 +242,7 @@ namespace HangManFunVersion
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to set the secret word for {player2.UserName}.");
                 Console.Write("Enter the secret word: ");
-                string secretWordP1 = Console.ReadLine()?.Trim().ToLower() ?? "hangman";
+                string secretWordP1 = Console.ReadLine()!.Trim().ToLower();
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to guess {player1.UserName}'s word.");
@@ -224,7 +251,7 @@ namespace HangManFunVersion
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to set the secret word for {player1.UserName}.");
                 Console.Write("Enter the secret word: ");
-                string secretWordP2 = Console.ReadLine()?.Trim().ToLower() ?? "hangman";
+                string secretWordP2 = Console.ReadLine()!.Trim().ToLower();
 
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to guess {player2.UserName}'s word.");
@@ -240,8 +267,8 @@ namespace HangManFunVersion
             Console.WriteLine($"\nThank you for playing, {player1.UserName} and {player2.UserName}!");
             Console.WriteLine($"Final score: {player1.UserName}: {player1.Score} points, {player2.UserName}: {player2.Score} points.");
             Console.WriteLine(player1.Score > player2.Score ? $"{player1.UserName} is the winner!" :
-                            player2.Score > player1.Score ? $"{player2.UserName} is the winner!" :
-                            "The game is a draw!");
+                              player2.Score > player1.Score ? $"{player2.UserName} is the winner!" :
+                              "The game is a draw!");
         }
 
         public void PlayRoundTwoPlayer(User guesser, string secretWord)
@@ -266,7 +293,7 @@ namespace HangManFunVersion
                     Console.WriteLine($"Guessed Letters: {String.Join(", ", guesser.GuessedLetters)}");
 
                 Console.Write("Enter your guess: ");
-                string input = Console.ReadLine()?.Trim().ToLower() ?? "";
+                string input = Console.ReadLine()!.Trim().ToLower();
 
                 if (input.Length > 1 || String.IsNullOrEmpty(input) || !char.IsLetter(input[0]))
                 {
