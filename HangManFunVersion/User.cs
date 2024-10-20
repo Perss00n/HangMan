@@ -27,18 +27,10 @@
             Score++;
         }
 
-        public void ResetGuessedLetters()
-        {
-            GuessedLetters.Clear();
-        }
-
-        public void ResetWrongAnswers()
+        public void ResetRound()
         {
             WrongAnswers = 0;
-        }
-
-        public void ResetHasGuessedTheCorrectWord()
-        {
+            GuessedLetters.Clear();
             HasGuessedTheCorrectWord = false;
         }
 

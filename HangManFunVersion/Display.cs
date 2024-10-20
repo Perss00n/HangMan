@@ -25,8 +25,8 @@ public class Display
                         return;
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("Not yet implemented!");
-                        break;
+                        StartTwoPlayerGame();
+                        return;
                     case 3:
                         Console.WriteLine("Exiting the game...");
                         return;
@@ -45,7 +45,13 @@ public class Display
     {
         Game game = new Game();
         game.CreateNewUser();
-        game.PlaySinglePlayerRound();
+        game.PlayRoundSinglePlayer();
+    }
+
+    public void StartTwoPlayerGame()
+    {
+        Game game = new Game();
+        game.StartTwoPlayerRound();
     }
 
 
