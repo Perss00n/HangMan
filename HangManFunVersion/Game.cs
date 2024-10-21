@@ -5,8 +5,6 @@
         private User? user;
         public string? SecretWord { get; private set; }
         public char[]? CorrectLetters { get; private set; }
-        public bool IsGuessFound { get; private set; }
-
         public void MakeSecretWord()
         {
             string[] wordsToGuess;
@@ -63,7 +61,7 @@
 
                 CheckGuess(userGuess, user);
 
-                CheckForWin(user, CorrectLetters!);
+                CheckForWin(user);
                 if (user.WrongAnswers == 8)
                     break;
 
@@ -139,14 +137,14 @@
             }
         }
 
-        public void CheckForWin(User guesser, char[] correctLetters)
+        public void CheckForWin(User guesser)
         {
-            if (!correctLetters.Contains('_'))
+            if (!CorrectLetters!.Contains('_'))
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(Display.BuildHangMan(9));
-                Console.WriteLine(String.Join(" ", correctLetters));
+                Console.WriteLine(String.Join(" ", CorrectLetters!));
                 Console.ForegroundColor = ConsoleColor.White;
                 guesser.UpdateHasGuessedTheCorrectWord();
                 guesser.IncreaseScore();
@@ -240,8 +238,6 @@
             bool playAgain;
             bool isInvalidSecretWordP1;
             bool isInvalidSecretWordP2;
-            string secretWordP1;
-            string secretWordP2;
             do
             {
                 Console.Clear();
@@ -249,8 +245,8 @@
                 do
                 {
                     Console.Write("Enter the secret word: ");
-                    secretWordP1 = Console.ReadLine()!.Trim().ToLower();
-                    isInvalidSecretWordP1 = string.IsNullOrEmpty(secretWordP1) || secretWordP1.Length < 5 || !secretWordP1.All(char.IsLetter);
+                    SecretWord = Console.ReadLine()!.Trim().ToLower();
+                    isInvalidSecretWordP1 = string.IsNullOrEmpty(SecretWord) || SecretWord.Length < 5 || !SecretWord.All(char.IsLetter);
                     if (isInvalidSecretWordP1)
                     {
                         Console.Clear();
@@ -261,15 +257,15 @@
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to guess {player1.UserName}'s word.");
-                PlayTwoPlayerRound(player2, secretWordP1);
+                PlayTwoPlayerRound(player2);
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to set the secret word for {player1.UserName}.");
                 do
                 {
                     Console.Write("Enter the secret word: ");
-                    secretWordP2 = Console.ReadLine()!.Trim().ToLower();
-                    isInvalidSecretWordP2 = string.IsNullOrEmpty(secretWordP2) || secretWordP2.Length < 5 || !secretWordP2.All(char.IsLetter);
+                    SecretWord = Console.ReadLine()!.Trim().ToLower();
+                    isInvalidSecretWordP2 = string.IsNullOrEmpty(SecretWord) || SecretWord.Length < 5 || !SecretWord.All(char.IsLetter);
                     if (isInvalidSecretWordP2)
                     {
                         Console.Clear();
@@ -280,7 +276,7 @@
 
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to guess {player2.UserName}'s word.");
-                PlayTwoPlayerRound(player1, secretWordP2);
+                PlayTwoPlayerRound(player1);
 
                 player1.ResetRound();
                 player2.ResetRound();
@@ -296,11 +292,10 @@
                               "The game is a draw!");
         }
 
-        public void PlayTwoPlayerRound(User guesser, string secretWord)
+        public void PlayTwoPlayerRound(User guesser)
         {
             Console.Clear();
-            SecretWord = secretWord;
-            CorrectLetters = new char[SecretWord.Length];
+            CorrectLetters = new char[SecretWord!.Length];
             Array.Fill(CorrectLetters, '_');
 
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -336,7 +331,7 @@
 
                 CheckGuess(userGuess, guesser);
 
-                CheckForWin(guesser, CorrectLetters);
+                CheckForWin(guesser);
                 if (guesser.WrongAnswers == 8)
                     break;
 
