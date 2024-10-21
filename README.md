@@ -1,6 +1,6 @@
 # Hangman Game - School Project
 
-Welcome to the **Hangman Game** repository! This project is part of my ongoing journey to become a backend developer. The purpose of this project is to build a fully functional Hangman game in C# that runs in the console. It supports both single-player and two-player modes, and it's built with fundamental C# programming concepts.
+This project is part of my ongoing journey to become a backend developer. The purpose of this project is to build a fully functional Hangman game in C# that runs in the console. It supports both single-player and two-player modes, and it's built with fundamental C# programming concepts.
 
 ## About the Project
 
