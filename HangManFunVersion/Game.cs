@@ -167,7 +167,7 @@
             const int minUserNameLength = 2;
             bool isInvalidInput;
             user = new User();
-            Display.DisplayLogo();
+            Display.Logo();
 
             do
             {
@@ -178,7 +178,7 @@
                 if (isInvalidInput)
                 {
                     Console.Clear();
-                    Display.DisplayLogo();
+                    Display.Logo();
                     Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
                     Thread.Sleep(1000);
                 }
@@ -196,13 +196,14 @@
             User player2 = new User();
 
             Console.Clear();
-            Display.DisplayLogo();
-            Console.WriteLine("Welcome to the two player mode!\n");
+            Display.Logo();
+            Console.WriteLine("Welcome to the two-player mode!\n");
 
             string input;
             bool isInvalidInputUser1;
             bool isInvalidInputUser2;
             const int minUserNameLength = 2;
+
             do
             {
                 Console.Write("Player 1, please enter your username: ");
@@ -211,7 +212,7 @@
                 if (isInvalidInputUser1)
                 {
                     Console.Clear();
-                    Display.DisplayLogo();
+                    Display.Logo();
                     Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
                     Thread.Sleep(1000);
                 }
@@ -228,7 +229,7 @@
                 if (isInvalidInputUser2)
                 {
                     Console.Clear();
-                    Display.DisplayLogo();
+                    Display.Logo();
                     Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
                     Thread.Sleep(1000);
                 }
@@ -237,12 +238,26 @@
             player2.UserName = input2;
 
             bool playAgain;
+            bool isInvalidSecretWordP1;
+            bool isInvalidSecretWordP2;
+            string secretWordP1;
+            string secretWordP2;
             do
             {
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to set the secret word for {player2.UserName}.");
-                Console.Write("Enter the secret word: ");
-                string secretWordP1 = Console.ReadLine()!.Trim().ToLower();
+                do
+                {
+                    Console.Write("Enter the secret word: ");
+                    secretWordP1 = Console.ReadLine()!.Trim().ToLower();
+                    isInvalidSecretWordP1 = string.IsNullOrEmpty(secretWordP1) || secretWordP1.Length < 5 || !secretWordP1.All(char.IsLetter);
+                    if (isInvalidSecretWordP1)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error! The secret word can't be empty and must contain at least 5 letters, and only letters! Try again...");
+                        Thread.Sleep(1000);
+                    }
+                } while (isInvalidSecretWordP1);
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to guess {player1.UserName}'s word.");
@@ -250,8 +265,18 @@
 
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to set the secret word for {player1.UserName}.");
-                Console.Write("Enter the secret word: ");
-                string secretWordP2 = Console.ReadLine()!.Trim().ToLower();
+                do
+                {
+                    Console.Write("Enter the secret word: ");
+                    secretWordP2 = Console.ReadLine()!.Trim().ToLower();
+                    isInvalidSecretWordP2 = string.IsNullOrEmpty(secretWordP2) || secretWordP2.Length < 5 || !secretWordP2.All(char.IsLetter);
+                    if (isInvalidSecretWordP2)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error! The secret word can't be empty and must contain at least 5 letters, and only letters! Try again...");
+                        Thread.Sleep(1000);
+                    }
+                } while (isInvalidSecretWordP2);
 
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to guess {player2.UserName}'s word.");

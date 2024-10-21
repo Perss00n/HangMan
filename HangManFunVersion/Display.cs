@@ -3,12 +3,12 @@ public class Display
 {
     public void ShowMenu()
     {
-        DisplayLogo();
+        Logo();
 
         while (true)
         {
             Console.Clear();
-            DisplayLogo();
+            Logo();
 
             Console.WriteLine("1. Play Game (single player)");
             Console.WriteLine("2. Play Game (two players)");
@@ -35,7 +35,7 @@ public class Display
                 }
             }
 
-            DisplayLogo();
+            Logo();
             Console.WriteLine("Please enter a valid integer from 1-3. Try again...");
             Thread.Sleep(1500);
         }
@@ -84,7 +84,7 @@ public class Display
 
     }
 
-    public static void DisplayLogo()
+    public static void Logo()
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Blue;

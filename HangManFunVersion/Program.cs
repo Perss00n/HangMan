@@ -6,7 +6,6 @@ internal class Program
     {
         Display display = new Display();
         display.ShowMenu();
-
         Console.ReadLine();
     }
 }
