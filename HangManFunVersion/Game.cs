@@ -259,6 +259,23 @@
                 Console.WriteLine($"{player2.UserName}, it's your turn to guess {player1.UserName}'s word.");
                 PlayTwoPlayerRound(player2);
 
+                if (player2.HasGuessedTheCorrectWord)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nImpressive, {player2.UserName}! You guessed the word just in time and spared the hangman from his doom. A heroic victory!");
+                    Console.ResetColor();
+                    Console.WriteLine($"Press any key to see if {player1.UserName} shares the same luck...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"\nThe gallows got you this time, {player2.UserName}!");
+                    Console.ResetColor();
+                    Console.WriteLine($"Press any key to see if {player1.UserName} shares the same fate...");
+                    Console.ReadKey();
+                }
+
                 Console.Clear();
                 Console.WriteLine($"{player2.UserName}, it's your turn to set the secret word for {player1.UserName}.");
                 do
@@ -277,6 +294,25 @@
                 Console.Clear();
                 Console.WriteLine($"{player1.UserName}, it's your turn to guess {player2.UserName}'s word.");
                 PlayTwoPlayerRound(player1);
+
+
+                if (player1.HasGuessedTheCorrectWord)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\nImpressive, {player1.UserName}! You guessed the word just in time and spared the hangman from his doom. A heroic victory!");
+                    Console.ResetColor();
+                    Console.WriteLine($"Ready to conquer another round?");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"\nThe gallows got you this time, {player1.UserName}!");
+                    Console.ResetColor();
+                    Console.WriteLine($"But your journey’s not over yet! Dust off, sharpen your guesses, and go for the win next time!");
+                    Console.ReadKey();
+                }
+
 
                 player1.ResetRound();
                 player2.ResetRound();
