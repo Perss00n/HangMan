@@ -51,7 +51,7 @@
                     Console.ForegroundColor = ConsoleColor.Red;
                     if (user.WrongAnswers > 0)
                         Console.WriteLine(Display.BuildHangMan(user.WrongAnswers));
-                    Console.WriteLine("Guess can't be empty and can only contain 1 LETTER! Try again...");
+                    Console.WriteLine("Error! Guess can't be empty and must contain at least 1 letter, and only letters! Try again...");
                     Console.ForegroundColor = ConsoleColor.White;
                     Thread.Sleep(1000);
                     continue;
@@ -177,7 +177,7 @@
                 {
                     Console.Clear();
                     Display.Logo();
-                    Console.WriteLine($"Error! Name cannot be empty and must contain at least {minUserNameLength} characters! Please try again...");
+                    Console.WriteLine($"Error! Name can't be empty and must contain at least {minUserNameLength} characters! Please try again...");
                     Thread.Sleep(1000);
                 }
                 else
@@ -321,7 +321,7 @@
                     Console.ForegroundColor = ConsoleColor.Red;
                     if (guesser.WrongAnswers > 0)
                         Console.WriteLine(Display.BuildHangMan(guesser.WrongAnswers));
-                    Console.WriteLine("Guess can't be empty and can only contain 1 LETTER! Try again...");
+                    Console.WriteLine("Error! Guess can't be empty and must contain at least 1 letter, and only letters! Try again...");
                     Console.ForegroundColor = ConsoleColor.White;
                     Thread.Sleep(1000);
                     continue;

@@ -57,32 +57,22 @@ public class Display
 
     public static string BuildHangMan(int step)
     {
-
-        switch (step)
+        return step switch
         {
-            case 1:
-                return "  +---+\r\n      |\r\n      |\r\n      |\r\n      |\r\n      |\r\n=========\r\n";
-            case 2:
-                return "  +---+\r\n  |   |\r\n      |\r\n      |\r\n      |\r\n      |\r\n=========\r\n";
-            case 3:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n      |\r\n      |\r\n      |\r\n=========\r\n";
-            case 4:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n  |   |\r\n      |\r\n      |\r\n=========\r\n";
-            case 5:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n /|   |\r\n      |\r\n      |\r\n=========\r\n";
-            case 6:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n      |\r\n      |\r\n=========\r\n";
-            case 7:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n /    |\r\n      |\r\n=========\r\nTHIS IS YOUR LAST CHANCE!\r\n";
-            case 8:
-                return "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n / \\  |\r\n      |\r\n=========\r\nYOU ARE DEAD! GAME OVER!\r\n";
-            case 9:
-                return "  +---+\r\n      |\r\n \\O/  |\r\n  |   |\r\n / \\  |\r\n      |\r\n=========\r\nCONGRATULATIONS, YOU BROKE FREE!\r\n";
-            default:
-                return "Error! Something went wrong...";
-        }
-
+            1 => "  +---+\r\n      |\r\n      |\r\n      |\r\n      |\r\n      |\r\n=========\r\n",
+            2 => "  +---+\r\n  |   |\r\n      |\r\n      |\r\n      |\r\n      |\r\n=========\r\n",
+            3 => "  +---+\r\n  |   |\r\n  O   |\r\n      |\r\n      |\r\n      |\r\n=========\r\n",
+            4 => "  +---+\r\n  |   |\r\n  O   |\r\n  |   |\r\n      |\r\n      |\r\n=========\r\n",
+            5 => "  +---+\r\n  |   |\r\n  O   |\r\n /|   |\r\n      |\r\n      |\r\n=========\r\n",
+            6 => "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n      |\r\n      |\r\n=========\r\n",
+            7 => "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n /    |\r\n      |\r\n=========\r\nTHIS IS YOUR LAST CHANCE!\r\n",
+            8 => "  +---+\r\n  |   |\r\n  O   |\r\n /|\\  |\r\n / \\  |\r\n      |\r\n=========\r\nYOU ARE DEAD! GAME OVER!\r\n",
+            9 => "  +---+\r\n      |\r\n \\O/  |\r\n  |   |\r\n / \\  |\r\n      |\r\n=========\r\nCONGRATULATIONS, YOU BROKE FREE!\r\n",
+            _ => "Error! Something went wrong..."
+        };
     }
+
+
 
     public static void Logo()
     {
